@@ -7,6 +7,7 @@
     <style>
         * {
           box-sizing: border-box;
+          margin: 0px;
         }
         main {
           height: 100vh;
@@ -21,11 +22,14 @@
           display: grid;
         }
         #user {
-          display: flex;
+          display: grid;
+          place-items: center;
+          margin-bottom: 10px;
+
         }
         .reg {
-          width: 20%;
-          height: 40%;
+          width: 30%;
+          height: 350px;
           border: 1px solid;
           padding: 20px;
           border-radius: 20px;
@@ -47,12 +51,13 @@
           height: 30px;
           width: 100px;
         }
-        .register,
-        #user {
+        .register
+         {
           display: flex;
           justify-content: center;
           align-items: center;
           gap: 15px;
+          flex-wrap: wrap;
         }
         #register{
             width: 80px;
@@ -72,6 +77,38 @@
       button:hover{
         background-color: aqua;
       }
+      @media screen and (max-width:426px) {
+        .reg{
+      
+        width: 80%;
+        margin-left: 10%;
+        height: 60%;
+        border: 1px solid;
+        /* padding: 20px; */
+        border-radius: 20px;
+        opacity: 0.8;
+        background-color: rgb(177, 184, 212);
+        
+        }
+
+        
+      }
+      @media screen and (min-width:427px) and (max-width:768px) {
+        .reg{
+      
+        width: 60%;
+        margin-left: 20%;
+        height: 60%;
+        border: 1px solid;
+        /* padding: 20px; */
+        border-radius: 20px;
+        opacity: 0.8;
+        background-color: rgb(177, 184, 212);
+        
+        }
+
+        
+      }
       </style>
 </head>
 <body>
@@ -79,7 +116,7 @@
         <div class="main">
           
           <div class="reg">
-            <h4 style="text-align: center;"><i>Login</i></h4>
+            <h4 style="text-align: center;margin-bottom: 20px;"><i>Login</i></h4>
             <input
               type="text"
               name=""
@@ -91,7 +128,7 @@
             <div id="user">
               
                 <button id="login">Login</button>
-              </div>
+              </div><br><hr><br>
             <div class="register">
              <a href="./index.html" target="_blank"><button id="register">Register</button></a> 
               <p>For New User</p>
