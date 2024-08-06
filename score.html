@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scores</title>
+    <style>
+        main{
+            height: 100px;
+            /* background-color: aqua; */
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .div1{
+            border: 1px solid;
+            text-align: center;
+            border-radius: 20px;
+            background-color: aqua;
+
+        }
+        .not{
+            background-color: rgb(197, 123, 123);
+        }
+        .yes{
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <main id="main">
+
+    </main>
+    <script>
+        main=document.getElementById("main")
+        score=localStorage.getItem("Scores");
+        score1=JSON.parse(score);
+        currentPlayer=localStorage.getItem("currentPlayer")
+        
+        c=JSON.parse(currentPlayer)
+        console.log(c.Name)
+        let k=0
+        let x=true
+        for(i of score1){
+            if(i.name==c.Name){
+                x=false;
+                d=document.createElement("div")
+            d.className="div1"
+            d.id=`d${k}`
+            
+           
+            main.appendChild(d)
+            d.setAttribute("height","10px")
+            // d.setAttribute("border","1px solid black")
+            // d.setAttribute("backgroundColor","black")
+            d1=document.getElementById(`d${k}`)
+            // main.innerHTML="aaa"
+            name1=document.createElement("h2")
+            name1.innerHTML="Name:"+i.name;
+            d1.appendChild(name1)
+            
+           
+            time1=document.createElement("h2")
+            status1=document.createElement("h2")
+            move=document.createElement("h2")
+            
+            time1.innerHTML="Time:"+i.time;
+            status1.innerHTML=(i.Status=="Not Finished")? `Status:<span class="not" >${i.Status}</span >`:`Status:<span class="yes">${i.Status}</span >`;
+            
+            move.innerHTML="Moves :"+i.Moves;
+            d1.appendChild(status1)
+            d1.appendChild(move)
+            d1.appendChild(time1)
+            
+            k++
+            }
+            
+            
+
+        }
+        if(x){
+            main.innerHTML="<h1>No Previous Data found</h1>"
+        }
+    </script>
+    
+</body>
+</html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Number Puzzle</title>
     <style>
       * {
         box-sizing: border-box;
@@ -66,7 +66,7 @@
         border-radius: 20px;
         box-shadow: 0px 0px 100px aqua;
       }
-      .d:hover{
+      .d:hover {
         background-color: #9fcf65;
       }
       /* p {
@@ -89,14 +89,15 @@
         visibility: hidden;
         /* display: none; */
       }
-      button:hover{
+      button:hover {
         cursor: pointer;
         background-color: rgb(13, 164, 164);
       }
-      #level:hover,#decrease:hover{
+      #level:hover,
+      #decrease:hover {
         background-color: #8ebce4;
       }
-      #play:hover{
+      #play:hover {
         background-color: blueviolet;
       }
       #won {
@@ -119,12 +120,42 @@
       #moves {
         visibility: hidden;
       }
-      #timer{
-        width: 10%;
+      #timer {
+        width: 100px;
         height: 10%;
         position: absolute;
-        /* background-color: whitesmoke; */
+        top: 150px;
+        font-size: x-large;
+        background-color: whitesmoke;
+        display: none;
+        border-radius: 20px;
+        text-align: center;
+        align-content: center;
+      }
+      #results{
+        width: 100px;
+        height: 10%;
+        position: absolute;
+        right: 10px;
+        top: 150px;
+        background-color: whitesmoke;
+        border-radius: 20px;
+        font-size: x-large;
+        text-align: center;
+        align-content: center;
 
+      }
+      #timeup{
+        text-align: center;
+        width: 50%;
+        height: 100px;
+        background-color: #9fcf65;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: none;
+        border-radius: 30px;
       }
       @media screen and (min-width: 0px) and (max-width: 425px) {
         #main {
@@ -162,16 +193,19 @@
       <span id="won1">You Won</span><br />
       <span id="score"></span>
     </div>
-    <div id="timer">
-      
-
+    <div id="timer"></div>
+    <a href="./score.html" target="_blank"><div id="results">Previous Results</div></a>
+    <div id="timeup">
+      <h1>Time up...Please restart again</h1>
     </div>
+    
 
     <script>
       name = localStorage.getItem("currentPlayer");
       name1 = JSON.parse(name);
       console.log(name1.Name);
       score = document.getElementById("score");
+      timeup=document.getElementById("timeup")
 
       //span=document.createElement("h1")
       span = document.getElementById("span");
@@ -180,7 +214,7 @@
       let main = document.getElementById("main");
       let level = document.getElementById("level");
       let decrease = document.getElementById("decrease");
-      let time=document.getElementById("timer")
+      let timer = document.getElementById("timer");
       move = document.getElementById("moves");
       won = document.getElementById("won");
       span.innerHTML = `Welcome Mr.${name1.Name}<p><span id="aaaa">Click on Play to start the game</span></p>`;
@@ -193,13 +227,58 @@
       let arrayShuffled = [];
       arr = [];
       count = 0;
-      
+      let time;
+      let min;
+      let sec;
+      store = { name: "", time: "", Status: "" ,Moves:""};
+
       // score.innerHTML=`Your Score:${count}`
-      
-      
+      function timing() {
+        min = 4;
+        sec = 60;
+        clearInterval(time);
+        time = setInterval(() => {
+          sec--;
+          if (sec == 0) {
+            min--;
+            sec = 59;
+          }
+          if(min==-1){
+            clearInterval(time)
+            timer.innerHTML = `00:00`;
+            timeup.style.display="block"
+          }
+          if (sec < 10) {
+            timer.innerHTML = `0${min}:0${sec}`;
+          } else {
+            timer.innerHTML = `0${min}:${sec}`;
+          }
+        }, 1000);
+      }
 
       play.addEventListener("click", () => {
-        
+        if (min != undefined) {
+          store.name = name1.Name;
+          store.time = `${4 - min}Min:${60 - sec}seconds`;
+          store.Status = "Not Finished";
+          store.Moves=count
+          store1 = localStorage.getItem("Scores");
+          s = JSON.parse(store1);
+          if (s == null) {
+            localStorage.setItem("Scores", JSON.stringify([store]));
+          } else {
+            s1 = localStorage.getItem("Scores");
+            s2 = JSON.parse(s1);
+            s2.push(store);
+            localStorage.setItem("Scores", JSON.stringify(s2));
+          }
+        }
+
+        timer.innerHTML = "00:00";
+        clearInterval(time);
+        timing();
+        timer.style.display="block"
+
         span.innerHTML = `Welcome Mr.${name1.Name}`;
         span.style.textAlign = "end";
         play.innerHTML = "Reset";
@@ -209,6 +288,7 @@
 
         // play.style.backgroundColor = "#dae639";
         // play.style.boxShadow = "0 0 30px yellow";
+
         count = 0;
         move.innerHTML = "Moves:" + count;
         resetMainGrid();
@@ -220,7 +300,10 @@
       });
 
       level.addEventListener("click", () => {
-        
+        timer.innerHTML = "00:00";
+        clearInterval(time);
+        timing();
+
         won.style.display = "block";
         count = 0;
         move.innerHTML = "Moves:" + count;
@@ -235,7 +318,10 @@
       });
 
       decrease.addEventListener("click", () => {
-        
+        timer.innerHTML = "00:00";
+        clearInterval(time);
+        timing();
+
         count = 0;
         won.style.display = "block";
 
@@ -305,6 +391,19 @@
           count++;
           move.innerHTML = `Moves:${count}`;
           if (checkWin()) {
+            store.name = name1.Name;
+            store.time = `${4 - min}Min:${60 - sec}seconds`;
+            store.Status = "Finished";
+            store1 = localStorage.getItem("Scores");
+            s = JSON.parse(store1);
+            if (s == null) {
+              localStorage.setItem("Scores", JSON.stringify([store]));
+            } else {
+              s1 = localStorage.getItem("Scores");
+              s2 = JSON.parse(s1);
+              s2.push(store);
+              localStorage.setItem("Scores", JSON.stringify(s2));
+            }
             score.innerHTML = `Your Score:${count}`;
             won.style.display = "block";
             won.style.visibility = "visible";
