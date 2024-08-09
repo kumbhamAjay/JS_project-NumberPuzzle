@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0px;
+      }
+      main {
+        height: 100vh;
+        width: 100vw;
+        /* background-color: aqua; */
+      }
+      .main {
+        background-image: url("./Assets/3.jpg");
+        background-size: cover;
+        height: 100%;
+        width: 100%;
+        display: grid;
+      }
+      #user {
+        display: flex;
+      }
+      .reg {
+        width: 30%;
+        height: 400px;
+        border: 1px solid;
+        padding: 20px;
+        border-radius: 20px;
+        opacity: 0.8;
+        background-color: rgb(177, 184, 212);
+        margin-left: 30%;
+        margin-top: 10%;
+        flex-wrap: wrap;
+      }
+      input {
+        width: 90%;
+        margin-left: 5%;
+        height: 40px;
+        border-radius: 10px;
+      }
+      button {
+        background-color: blue;
+        border: none;
+        border-radius: 10px;
+        height: 30px;
+        width: 100px;
+      }
+      button:active{
+        background-color: greenyellow;
+      }
+      button:hover{
+        background-color: aqua;
+      }
+      .register,
+      #user {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      @media screen and (max-width:426px) {
+        .reg{
+      
+        width: 80%;
+        margin-left: 10%;
+        height: 60%;
+        border: 1px solid;
+        /* padding: 20px; */
+        border-radius: 20px;
+        opacity: 0.8;
+        background-color: rgb(177, 184, 212);
+        
+        }
+
+        
+      }
+      @media screen and (min-width:427px) and (max-width:768px) {
+        .reg{
+      
+        width: 60%;
+        margin-left: 20%;
+        height: 60%;
+        border: 1px solid;
+        /* padding: 20px; */
+        border-radius: 20px;
+        opacity: 0.8;
+        background-color: rgb(177, 184, 212);
+        
+        }
+
+        
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="main">
+        <!-- <h1>Number Puzzle</h1> -->
+        <div class="reg">
+          <h4 style="text-align: center;margin-bottom: 20px;"><i>SignUp</i></h4>
+          <input
+            type="text"
+            name=""
+            id="un"
+            placeholder="Username"
+            required
+          /><br /><br />
+          <input type="password" id="pass" placeholder="Password" /><br /><br />
+          <div class="register">
+            <button id="register">Register</button>
+            <p>For New User</p>
+            
+          </div><br>
+          <hr><br>
+
+          <div id="user">
+            <p>Already a user?</p>
+            <a href="./login.html" target="_blank"><button id="login">Login</button></a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      un = document.getElementById("un");
+      pass = document.getElementById("pass");
+      register = document.getElementById("register");
+      register.addEventListener("click", () => {
+        d1 = { Name: un.value, Password: pass.value };
+
+        data = localStorage.getItem("player");
+        d = JSON.parse(data);
+        if (un.value != "" && pass.value != "") {
+          if (d == null) {
+            localStorage.setItem("player", JSON.stringify([d1]));
+            un.value="";
+              pass.value=""
+              alert("Registration Successful..!Now You can login")
+          } else {
+            k = true;
+            data1 = localStorage.getItem("player");
+            d2 = JSON.parse(data1);
+            for (i of d2) {
+              if (i.Name == un.value && i.Password == pass.value) {
+                k = false;
+                un.value=""
+                pass.value=""
+                alert("User already exists");
+              }
+            }
+            if (k) {
+              d2.push(d1);
+              localStorage.setItem("player", JSON.stringify(d2));
+              un.value="";
+              pass.value=""
+              alert("Registration Successful..!Now You can login")
+            }
+          }
+        }
+        else{
+            alert("User Details Mandatory")
+        }
+      });
+    </script>
+  </body>
+</html>
